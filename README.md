@@ -1,113 +1,147 @@
-# Cryptocurrency Price Prediction Using Machine Learning
+# Cryptocurrency Price Prediction
 
-## 📌 Project Overview
+## 📌 Overview
 
-This project applies machine learning techniques to predict cryptocurrency prices using historical market data from **Bitcoin** and **Ethereum**.
+This project uses machine learning to predict the future closing prices of **Bitcoin and Ethereum** using historical cryptocurrency market data.
 
-The project explores historical price patterns and uses different regression algorithms to predict the **next day's closing price**. Three machine learning models are implemented and compared:
+The datasets contain **113 columns**, providing a broad range of historical market variables. For the prediction models, selected price-related features are used, including **Open, High, Low, and Close** prices. Additional features such as **Price Change** and **Price Spread** are also explored during feature analysis.
+
+The project compares three regression algorithms:
 
 * Random Forest Regression
 * Linear Regression
 * K-Nearest Neighbours (KNN) Regression
 
-The models are evaluated using **Root Mean Squared Error (RMSE)** and **R² (R-squared)** to assess their prediction performance.
-
 ---
 
 ## 🎯 Objectives
 
-The main objectives of this project are to:
-
-1. Analyse historical Bitcoin and Ethereum price data.
-2. Prepare and clean the cryptocurrency datasets for modelling.
-3. Create a target variable representing the future closing price.
-4. Engineer additional features from historical price data.
-5. Examine feature relevance using a Chi-Square feature selection approach.
-6. Train multiple regression models for cryptocurrency price prediction.
-7. Compare model performance using RMSE and R².
-8. Visualise actual versus predicted prices and model performance.
+* Analyse historical Bitcoin and Ethereum data.
+* Prepare the datasets for machine learning.
+* Create a target variable representing the **next closing price**.
+* Perform feature analysis using the Chi-Square test.
+* Train and compare different regression models.
+* Evaluate predictions using **RMSE** and **R²**.
+* Visualise actual and predicted cryptocurrency prices.
 
 ---
 
 ## 📊 Datasets
 
-The project uses two historical cryptocurrency datasets:
+The project uses two datasets:
 
-### Bitcoin
+* `bitcoin.csv`
+* `ethereum.csv`
 
-**File:** `bitcoin.csv`
-
-### Ethereum
-
-**File:** `ethereum.csv`
-
-The datasets contain historical cryptocurrency market information, including variables such as:
-
-* Date
-* Open price
-* High price
-* Low price
-* Closing price
-* Trading volume
-
-The exact columns available differ slightly between the Bitcoin and Ethereum datasets.
+Each dataset contains **113 columns** of cryptocurrency-related historical data. The modelling stage focuses on selected market-price variables rather than using all available columns.
 
 ---
 
 ## 🔧 Data Preparation
 
-The datasets are loaded using Pandas, and the date columns are converted into datetime format.
+The data is loaded using Pandas and the date fields are converted into datetime format. Missing values are checked and handled before modelling.
 
-Missing values are also checked before modelling.
-
-A new target variable called `Target` is created by shifting the closing price by one observation:
+A future closing-price target is created by shifting the `Close` column by one observation:
 
 ```python
-eth_data["Target"] = eth_data["Close"].shift(-1)
-btc_data["Target"] = btc_data["Close"].shift(-1)
+Target = Close.shift(-1)
 ```
 
-This means that the model uses the current market information to predict the **following closing price**.
+This allows the models to predict the following closing price.
 
----
+Additional features are created:
 
-## ⚙️ Feature Engineering
-
-Two additional variables are created:
-
-### Price Spread
-
-```text
-Price_Spread = High - Low
-```
-
-This represents the daily difference between the highest and lowest recorded prices.
-
-### Price Change
-
-```text
-Price_Change = Close.pct_change()
-```
-
-This represents the percentage change in the closing price between observations.
-
-The engineered features provide additional information about daily cryptocurrency price movement.
+* **Price Spread** = High − Low
+* **Price Change** = percentage change in Close price
 
 ---
 
 ## 🔍 Feature Selection
 
-A Chi-Square test is used to examine the relationship between the available features and the target variable.
+A Chi-Square feature selection approach is applied after converting numerical variables into categorical bins.
 
-Because the Chi-Square test is designed for categorical/non-negative data, numerical variables are first converted into five bins using `KBinsDiscretizer`.
+The analysis calculates Chi-Square scores for the selected Bitcoin and Ethereum features to examine their relationship with the target variable.
 
-The feature sets include:
+---
 
-### Bitcoin
+## 🤖 Machine Learning Models
 
-* Open
-* High
-* Low
-* Close
-* Volume
-* Pri
+The data is divided into **80% training and 20% testing sets**.
+
+Three regression models are trained:
+
+### Random Forest Regression
+
+An ensemble model using 100 decision trees.
+
+### Linear Regression
+
+Used as a baseline regression approach.
+
+### KNN Regression
+
+Uses the five nearest observations to generate predictions.
+
+---
+
+## 📏 Model Evaluation
+
+Model performance is evaluated using:
+
+* **RMSE (Root Mean Squared Error):** measures prediction error, with lower values indicating smaller errors.
+* **R² (R-squared):** measures how much variation in the target is explained by the model.
+
+The project calculates both metrics for Bitcoin and Ethereum across all three models.
+
+---
+
+## 📈 Results & Visualisation
+
+The project includes:
+
+* Actual vs. predicted Bitcoin prices
+* Actual vs. predicted Ethereum prices
+* RMSE comparison between the three models
+* Prediction tables containing actual and predicted prices
+
+These visualisations help compare the performance of the different approaches.
+
+---
+
+## 🛠️ Technologies Used
+
+* Python
+* Pandas
+* NumPy
+* Matplotlib
+* Scikit-learn
+* Jupyter Notebook
+
+---
+
+## 🚀 How to Run
+
+Clone the repository and install the required Python libraries:
+
+```bash
+pip install pandas numpy matplotlib scikit-learn jupyter
+```
+
+Ensure `bitcoin.csv` and `ethereum.csv` are in the appropriate project directory, then open and run the Jupyter Notebook.
+
+---
+
+## ⚠️ Disclaimer
+
+This project is intended for **educational and analytical purposes**. Cryptocurrency prices are highly dynamic and influenced by many factors that are not included in the model. The predictions should therefore not be interpreted as financial advice or guaranteed future prices.
+
+---
+
+## 👩🏽‍💻 Author
+
+**Maame Birago**
+
+MSc Data Analytics
+
+GitHub: `github.com/maamebirago`
+
